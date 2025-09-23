@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:ihamim_multivendor/app/modules/home/getproduct.dart';
+import 'package:ihamim_multivendor/app/modules/home/home_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
 import 'dart:io';
@@ -12,41 +12,57 @@ class AddproductScreen extends StatefulWidget {
 
 class _AddproductScreenState extends State<AddproductScreen> {
   final _formKey = GlobalKey<FormState>();
-  String productName = '';
-  String productDescription = '';
-  double price = 0.0;
-  int stock = 0;
-  int categoryId = 1; // Default value
-  int userId = 36; // Default value
-  String phone = '';
-  String comment = '';
-  String location = '';
-  String city = '';
-  String status = 'pending'; // Default value (updated)
+  String productName = 'Pro name1';
+  String productDescription = 'pro desc1';
+  double price = 2.0;
+  int stock = 1;
+  int categoryId = 2;
+  int userId = 36;
+  String phone = '09111';
+  String comment = 'ccc';
+  String location = 'loca1';
+  String city = 'city1';
+  String status = 'pending';
   File? _image;
   List<File> _galleryImages = []; // New field for product gallery
 
-  Future<void> _pickImage() async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      setState(() {
-        _image = File(pickedFile.path);
-      });
-    }
-  }
+//   Future<void> _pickImage() async {
+//   final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+//   if (pickedFile != null) {
+//     setState(() {
+//       _image = File(pickedFile.path);
+//     });
+//     // Check if the file exists
+//     if (await _image!.exists()) {
+//       print('Picked image exists: ${_image!.path}');
+//     } else {
+//       print('Picked image does not exist.');
+//     }
+//   } else {
+//     print('No image selected.');
+//   }
+// }
 
   Future<void> _pickGalleryImages() async {
-    final pickedFiles = await ImagePicker().pickMultiImage();
-    if (pickedFiles != null) {
-      setState(() {
-        _galleryImages = pickedFiles.map((pickedFile) => File(pickedFile.path)).toList();
-      });
+  final pickedFiles = await ImagePicker().pickMultiImage();
+  if (pickedFiles != null) {
+    setState(() {
+      _galleryImages = pickedFiles.map((pickedFile) => File(pickedFile.path)).toList();
+    });
+
+    // Check if all picked gallery images exist
+    for (var image in _galleryImages) {
+      if (await image.exists()) {
+        print('Gallery image exists: ${image.path}');
+      } else {
+        print('Gallery image does not exist: ${image.path}');
+      }
     }
   }
-
+}
   Future<void> _postProduct() async {
-    if (_formKey.currentState!.validate()) {
-      final uri = Uri.parse('http://192.168.109.3:4000/api/products'); // Update URL as needed
+    
+      final uri = Uri.parse('http://192.168.1.16:4000/api/products');
       var request = http.MultipartRequest('POST', uri);
       request.fields['productName'] = productName;
       request.fields['productDescription'] = productDescription;
@@ -55,14 +71,14 @@ class _AddproductScreenState extends State<AddproductScreen> {
       request.fields['categoryId'] = categoryId.toString();
       request.fields['userId'] = userId.toString();
       request.fields['phone'] = phone;
-      request.fields['comment'] = comment;
+      // request.fields['comment'] = comment;
       request.fields['location'] = location;
       request.fields['city'] = city;
       request.fields['status'] = status;
 
-      if (_image != null) {
-        request.files.add(await http.MultipartFile.fromPath('product_image', _image!.path));
-      }
+      // if (_image != null) {
+      //   request.files.add(await http.MultipartFile.fromPath('product_image', _image!.path));
+      // }
 
       // Add product gallery images
       if (_galleryImages.isNotEmpty) {
@@ -73,6 +89,7 @@ class _AddproductScreenState extends State<AddproductScreen> {
       }
 
       final response = await request.send();
+      print('$_galleryImages         aaaaaaaaaaaaaaaaaaa');
       if (response.statusCode == 201) {
         final responseData = await response.stream.toBytes();
         final responseString = String.fromCharCodes(responseData);
@@ -82,7 +99,7 @@ class _AddproductScreenState extends State<AddproductScreen> {
       } else {
         print('Failed to post product');
       }
-    }
+    
   }
 
   @override
@@ -135,11 +152,11 @@ class _AddproductScreenState extends State<AddproductScreen> {
                   validator: (value) => value!.isEmpty ? 'Please enter phone number' : null,
                   onChanged: (value) => phone = value,
                 ),
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'Comment'),
-                  validator: (value) => value!.isEmpty ? 'Please enter a comment' : null,
-                  onChanged: (value) => comment = value,
-                ),
+                // TextFormField(
+                //   decoration: InputDecoration(labelText: 'Comment'),
+                //   validator: (value) => value!.isEmpty ? 'Please enter a comment' : null,
+                //   onChanged: (value) => comment = value,
+                // ),
                 TextFormField(
                   decoration: InputDecoration(labelText: 'Location'),
                   validator: (value) => value!.isEmpty ? 'Please enter location' : null,
@@ -166,10 +183,10 @@ class _AddproductScreenState extends State<AddproductScreen> {
                   },
                 ),
                 SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: _pickImage,
-                  child: Text('Pick Main Image'),
-                ),
+                // ElevatedButton(
+                //   onPressed: _pickImage,
+                //   child: Text('Pick Main Image'),
+                // ),
                 if (_image != null) ...[
                   SizedBox(height: 20),
                   Image.file(_image!, height: 100),
@@ -196,7 +213,7 @@ class _AddproductScreenState extends State<AddproductScreen> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ProductDisplayScreen()), // Navigate to product display
+                      MaterialPageRoute(builder: (context) => HomeScreen()), // Navigate to product display
                     );
                   },
                   child: Text('View Products'),

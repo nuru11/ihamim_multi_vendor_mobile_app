@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:ihamim_multivendor/app/binding/auth_binding.dart';
+import 'package:ihamim_multivendor/app/binding/product_binding.dart';
 import 'package:ihamim_multivendor/app/modules/auth/login_screen.dart';
 import 'package:ihamim_multivendor/app/modules/auth/register_screen.dart';
 import '../modules/home/home_screen.dart';
@@ -11,7 +12,7 @@ class AppPages {
     GetPage(
       name: Routes.HOME,
       page: () =>  HomeScreen(),
-      binding: AuthBinding(),
+      binding: ProductBinding(),
     ),
     GetPage(
       name: Routes.LOGIN,
