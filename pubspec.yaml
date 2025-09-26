@@ -39,6 +39,8 @@ dependencies:
   dio: ^5.9.0
   http: ^0.13.3
   image_picker: ^0.8.4+5
+  string_similarity: ^2.0.0
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
@@ -92,3 +94,8 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/app_logo/app_logo.jpeg"
