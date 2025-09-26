@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:ihamim_multivendor/app/controllers/product_controller.dart';
 import 'package:ihamim_multivendor/app/controllers/wishlist_controller.dart';
 import 'package:ihamim_multivendor/app/modules/home/home_screen.dart';
+import 'package:ihamim_multivendor/app/modules/productDetail_screen.dart';
+import 'package:ihamim_multivendor/app/utils/constants/colors.dart';
 
 
 
@@ -22,8 +24,9 @@ class WishlistScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("My Wishlist"),
-        backgroundColor: Colors.redAccent,
+        title: const Text("My Wishlist", style: TextStyle(color: Colors.white)),
+        backgroundColor: mainColor,
+        iconTheme: const IconThemeData(color: Colors.white), // Set icon color to white
       ),
       body: Obx(() {
         // Filter products that are in wishlist

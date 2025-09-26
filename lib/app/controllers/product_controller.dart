@@ -65,6 +65,9 @@ class ProductController extends GetxController {
   var products = <ProductModel>[].obs;
   var filteredProducts = <ProductModel>[].obs;
 
+  // 🔹 Loading state
+  var isLoading = false.obs;
+
   // 🔹 Search
   var searchQuery = "".obs;
   var suggestions = <String>[].obs;
@@ -79,82 +82,78 @@ class ProductController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    ever(searchQuery, (_) => applyFilters()); // auto apply search
+    ever(searchQuery, (_) => applyFilters()); 
     everAll([minPrice, maxPrice, selectedCategory, condition, sortBy],
-        (_) => applyFilters()); // auto apply filters too
+        (_) => applyFilters());
+    getAllProductsController(); // fetch products on init
   }
 
   Future<void> getAllProductsController() async {
     try {
+      isLoading.value = true; // start loading
       final fetched = await _repository.getAllProductRepository();
       products.assignAll(fetched);
       filteredProducts.assignAll(fetched);
     } catch (e) {
       print("Error fetching products: $e");
+    } finally {
+      isLoading.value = false; // stop loading
     }
   }
 
   void applyFilters() {
-  final query = searchQuery.value.toLowerCase();
+    final query = searchQuery.value.toLowerCase();
+    List<ProductModel> temp = products;
 
-  List<ProductModel> temp = products;
+    // 🔹 Search filter
+    if (query.isNotEmpty) {
+      temp = temp.where((p) {
+        final name = p.productName.toLowerCase();
+        final desc = p.productDescription?.toLowerCase() ?? "";
+        final model = p.carModel?.toLowerCase() ?? "";
+        return name.contains(query) ||
+            desc.contains(query) ||
+            model.contains(query);
+      }).toList();
+    }
 
-  // 🔹 Search filter
-  if (query.isNotEmpty) {
-    temp = temp.where((p) {
-      final name = p.productName.toLowerCase();
-      final desc = p.productDescription?.toLowerCase() ?? "";
-      final model = p.carModel?.toLowerCase() ?? "";
-      return name.similarityTo(query) > 0.4 ||
-             desc.similarityTo(query) > 0.4 ||
-             model.similarityTo(query) > 0.4;
-    }).toList();
+    // 🔹 Category filter
+    if (selectedCategory.value != null && selectedCategory.value!.isNotEmpty) {
+      temp = temp.where((p) => p.categoryName == selectedCategory.value).toList();
+    }
+
+    // 🔹 Condition filter
+    if (condition.value != null && condition.value!.isNotEmpty) {
+      temp = temp.where((p) =>
+          p.carCondition.toLowerCase() == condition.value!.toLowerCase()).toList();
+    }
+
+    // 🔹 Price filter
+    temp = temp
+        .where((p) =>
+            (p.price ?? 0) >= minPrice.value &&
+            (p.price ?? 0) <= maxPrice.value)
+        .toList();
+
+    // 🔹 Sorting
+    switch (sortBy.value) {
+      case "high":
+        temp.sort((a, b) => (b.price ?? 0).compareTo(a.price ?? 0));
+        break;
+      case "low":
+        temp.sort((a, b) => (a.price ?? 0).compareTo(b.price ?? 0));
+        break;
+    }
+
+    filteredProducts.assignAll(temp);
+
+    // 🔹 Suggestions
+    suggestions.assignAll(
+      temp
+          .where((p) => query.isNotEmpty)
+          .map((p) => p.productName)
+          .take(5)
+          .toList(),
+    );
   }
-
-  // 🔹 Category filter
-  if (selectedCategory.value != null && selectedCategory.value!.isNotEmpty) {
-    temp = temp.where((p) => p.categoryName == selectedCategory.value).toList();
-  }
-
-  // 🔹 Condition filter
-  if (condition.value != null && condition.value!.isNotEmpty) {
-    print("Filtering by condition: ${condition.value}");
-    temp = temp.where((p) => p.carCondition.toLowerCase() == condition.value!.toLowerCase()).toList();
-  }
-
-  // 🔹 Price filter
-  temp = temp.where((p) =>
-      (p.price ?? 0) >= minPrice.value && (p.price ?? 0) <= maxPrice.value
-  ).toList();
-
-  // 🔹 Sorting
-  switch (sortBy.value) {
-    case "high":
-      temp.sort((a, b) => (b.price ?? 0).compareTo(a.price ?? 0));
-      break;
-    case "low":
-      temp.sort((a, b) => (a.price ?? 0).compareTo(b.price ?? 0));
-      break;
-    case "urgent":
-      // implement if you have a field like 'isUrgent'
-      break;
-    case "popular":
-    default:
-      // keep default order or implement popularity sort
-      break;
-  }
-
-  filteredProducts.assignAll(temp);
-
-  // 🔹 Suggestions
-  suggestions.assignAll(
-    temp
-        .where((p) => query.isNotEmpty)
-        .map((p) => p.productName)
-        .take(5)
-        .toList(),
-  );
-}
-
-
 }
