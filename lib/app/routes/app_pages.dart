@@ -3,6 +3,8 @@ import 'package:ihamim_multivendor/app/binding/auth_binding.dart';
 import 'package:ihamim_multivendor/app/binding/product_binding.dart';
 import 'package:ihamim_multivendor/app/modules/auth/login_screen.dart';
 import 'package:ihamim_multivendor/app/modules/auth/register_screen.dart';
+import 'package:ihamim_multivendor/app/modules/wishlist_screen.dart';
+import 'package:ihamim_multivendor/bottom_nav/main_screen.dart';
 import '../modules/home/home_screen.dart';
 
 part 'app_routes.dart';
@@ -24,6 +26,18 @@ class AppPages {
      name: "/register",
      page: () => RegisterScreen(),
      binding: AuthBinding(),
+    ),
+
+    GetPage(
+      name: Routes.WISHLIST,
+      page: () =>  WishlistScreen(),
+      binding: AuthBinding(),
+    ),
+
+    GetPage(
+      name: Routes.MAINSCREEN,
+      page: () => MainScreen(),
+      binding: AuthBinding(),
     ),
 
   ];

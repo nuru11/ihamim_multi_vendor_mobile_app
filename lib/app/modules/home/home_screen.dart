@@ -7,6 +7,7 @@ import 'package:ihamim_multivendor/app/data/providers/category_api.dart';
 import 'package:ihamim_multivendor/app/data/providers/product_api.dart';
 import 'package:ihamim_multivendor/app/data/repositories/categroy_repository.dart';
 import 'package:ihamim_multivendor/app/data/repositories/product_repository.dart';
+import 'package:ihamim_multivendor/app/modules/addProduct_screen.dart';
 import 'package:ihamim_multivendor/app/modules/categoryProduct_screen.dart';
 import 'package:ihamim_multivendor/app/modules/home/widgets/categoryList_widget.dart';
 import 'package:ihamim_multivendor/app/modules/home/widgets/filter_bottom_sheet.dart';
@@ -141,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       controller: searchController,
                       onChanged: (val) => productController.searchQuery.value = val,
                       decoration: const InputDecoration(
-                        hintText: "Search products...",
+                        hintText: "Search Name, Make, Brand...",
                         border: InputBorder.none,
                       ),
                     ),
@@ -188,12 +189,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       final product = productController.filteredProducts[index];
                       return GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => ProductDetailScreen(product: product),
-                            ),
-                          );
+//                           Navigator.of(context, rootNavigator: true).push(
+//   MaterialPageRoute(builder: (_) => ProductDetailScreen(product: product)),
+// );
+
+Get.to(() => ProductDetailScreen(product: product));
                         },
                         child: ProductCard(product: product),
                       );
@@ -209,21 +209,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
 
-              // 🔹 Add products button
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => WishlistScreen()),
-                      );
-                    },
-                    child: const Text('Add Products'),
-                  ),
-                ),
-              ),
+              // SliverToBoxAdapter(
+              //   child: Padding(
+              //     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+              //     child: ElevatedButton(
+              //       onPressed: () {
+              //         // Navigator.push(
+              //         //   context,
+              //         //   MaterialPageRoute(builder: (_) => WishlistScreen()),
+              //         // );
+              //         Get.to(() => AddproductScreen());
+              //       },
+              //       child: const Text('Add Products'),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         );

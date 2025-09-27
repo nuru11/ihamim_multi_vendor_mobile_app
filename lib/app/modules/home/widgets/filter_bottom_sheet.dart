@@ -174,6 +174,7 @@ class FilterBottomSheet extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
+                        side: BorderSide(color: Color(0xFF38A001), width: 2), 
                       ),
                       onPressed: () {
                         // Reset filters
@@ -185,7 +186,7 @@ class FilterBottomSheet extends StatelessWidget {
                         productController.applyFilters();
                         Navigator.pop(context);
                       },
-                      child: const Text("Clear Filters"),
+                      child:  Text("Clear Filters", style: TextStyle(color: mainColor)),
                     ),
                   ),
                   const SizedBox(width: 12),

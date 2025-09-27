@@ -183,7 +183,7 @@ Future<void> _loadUser() async {
 
       if (loggedInUser != null) {
         Get.snackbar("Success", "Login successful");
-        Get.offAllNamed("/home");
+        Get.offAllNamed("/mainscreen");
       } else {
         Get.snackbar("Error", "Invalid email or password");
       }

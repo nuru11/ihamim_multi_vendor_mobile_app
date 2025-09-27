@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ihamim_multivendor/app/controllers/wishlist_controller.dart';
 import 'package:ihamim_multivendor/app/data/models/product_model.dart';
+import 'package:ihamim_multivendor/app/utils/constants/colors.dart';
 
 class ProductCard extends StatelessWidget {
   final ProductModel product;
@@ -101,42 +102,70 @@ class ProductCard extends StatelessWidget {
           ),
 
           // 🔹 Info Section
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  product.productName,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  "ETB ${product.price}",
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
-                    color: Colors.redAccent,
-                  ),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  product.carModel,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey[600],
-                  ),
-                ),
-              ],
-            ),
+          // 🔹 Info Section
+Expanded(
+  child: Padding(
+    padding: const EdgeInsets.all(10.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          product.productName,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 14,
           ),
+        ),
+        // const SizedBox(height: 4),
+        Text(
+          "ETB ${product.price}",
+          style:  TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 14,
+            color: mainColor,
+          ),
+        ),
+        // const SizedBox(height: 6),
+        Text(
+          product.carModel,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            fontSize: 12,
+            color: Colors.grey[600],
+          ),
+        ),
+        // const SizedBox(height: 4),
+  
+        // 🔹 City
+        Text(
+          product.city,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            fontSize: 12,
+            color: Colors.blueGrey[600],
+          ),
+        ),
+  
+        // 🔹 Category Name
+        Text(
+          product.categoryName,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            fontSize: 12,
+            color: Colors.grey[700],
+            fontStyle: FontStyle.italic,
+          ),
+        ),
+      ],
+    ),
+  ),
+),
+
         ],
       ),
     );

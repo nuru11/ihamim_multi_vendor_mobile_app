@@ -113,42 +113,38 @@ class CategoryListWidget extends StatelessWidget {
                 : categoryImages.last; // fallback if more categories
 
             return GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => CategoryProductsScreen(category: category),
-                  ),
-                );
-              },
-              child: Container(
-                margin: const EdgeInsets.only(right: 12),
-                child: Column(
-                  children: [
-                    Container(
-                      height: 60,
-                      width: 60,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Image.network(
-                        imageUrl,
-                        fit: BoxFit.contain,
-                        errorBuilder: (context, error, stackTrace) =>
-                            const Icon(Icons.error, color: Colors.red),
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      category.categoryName ?? "Unknown",
-                      style: const TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                ),
-              ),
-            );
+  onTap: () {
+    Get.to(() => CategoryProductsScreen(category: category));
+  },
+  child: Container(
+    margin: const EdgeInsets.only(right: 12),
+    child: Column(
+      children: [
+        Container(
+          height: 60,
+          width: 60,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Image.network(
+            imageUrl,
+            fit: BoxFit.contain,
+            errorBuilder: (context, error, stackTrace) =>
+                const Icon(Icons.error, color: Colors.red),
+          ),
+        ),
+        const SizedBox(height: 5),
+        Text(
+          category.categoryName ?? "Unknown",
+          style: const TextStyle(
+              fontSize: 12, fontWeight: FontWeight.w500),
+        ),
+      ],
+    ),
+  ),
+);
+
           },
         );
       }),
