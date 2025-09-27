@@ -22,7 +22,7 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
     final ProductController productController = Get.find<ProductController>();
 
     // 🔹 Filter products by category
-    final filteredProducts = productController.filteredProducts
+    final filteredProducts = productController.filteredProductsForCategory
         .where((p) => p.categoryName == widget.category.categoryName)
         .toList();
 
@@ -31,6 +31,7 @@ class _CategoryProductsScreenState extends State<CategoryProductsScreen> {
         title: Text(widget.category.categoryName ?? "Category", style: TextStyle(color: Colors.white)),
         backgroundColor: mainColor,
         iconTheme: const IconThemeData(color: Colors.white),
+        centerTitle: true,
       ),
       body: Obx(() {
         if (productController.isLoading.value) {

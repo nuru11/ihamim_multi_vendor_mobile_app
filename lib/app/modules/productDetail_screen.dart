@@ -55,6 +55,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         title: Text(widget.product.productName, style: const TextStyle(color: Colors.white)),
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: mainColor,
+        centerTitle: true,
         actions: [
           IconButton(
             icon: const Icon(Icons.share, color: Colors.white),

@@ -24,10 +24,11 @@ class WishlistScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("My Wishlist", style: TextStyle(color: Colors.white)),
-        backgroundColor: mainColor,
-        iconTheme: const IconThemeData(color: Colors.white), // Set icon color to white
-      ),
+  title: const Text("My Wishlist", style: TextStyle(color: Colors.white)),
+  backgroundColor: mainColor,
+  iconTheme: const IconThemeData(color: Colors.white), // Set icon color to white
+  centerTitle: true, // Center the title
+),
       body: Obx(() {
         // Filter products that are in wishlist
         final wishlistProducts = productController.filteredProducts
@@ -57,12 +58,14 @@ class WishlistScreen extends StatelessWidget {
 
             return GestureDetector(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => ProductDetailScreen(product: product),
-                  ),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (_) => ProductDetailScreen(product: product),
+                //   ),
+                // );
+
+                Get.to(() => ProductDetailScreen(product: product));
               },
               child: Container(
                 decoration: BoxDecoration(

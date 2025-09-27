@@ -17,6 +17,7 @@ class ProfileScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Profile", style: TextStyle(color: Colors.white)),
         backgroundColor: mainColor,
+        centerTitle: true,
         actions: [
           IconButton(
             icon: const Icon(Icons.logout, color: Colors.white),

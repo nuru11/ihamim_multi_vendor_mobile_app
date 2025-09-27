@@ -181,7 +181,7 @@ class FilterBottomSheet extends StatelessWidget {
                         productController.selectedCategory.value = null;
                         productController.condition.value = null;
                         productController.minPrice.value = 0;
-                        productController.maxPrice.value = 1000000;
+                        productController.maxPrice.value = 1000000000000000000;
                         productController.sortBy.value = "popular";
                         productController.applyFilters();
                         Navigator.pop(context);

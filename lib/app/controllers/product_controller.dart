@@ -64,6 +64,7 @@ class ProductController extends GetxController {
 
   var products = <ProductModel>[].obs;
   var filteredProducts = <ProductModel>[].obs;
+  var filteredProductsForCategory = <ProductModel>[].obs;
 
   // 🔹 Loading state
   var isLoading = false.obs;
@@ -74,7 +75,7 @@ class ProductController extends GetxController {
 
   // 🔹 Filters
   var minPrice = 0.0.obs;
-  var maxPrice = 1000000.0.obs;
+  var maxPrice = 100000000000000.0.obs;
   var selectedCategory = RxnString();
   var condition = RxnString(); // "new" or "used"
   var sortBy = "popular".obs;
@@ -94,6 +95,7 @@ class ProductController extends GetxController {
       final fetched = await _repository.getAllProductRepository();
       products.assignAll(fetched);
       filteredProducts.assignAll(fetched);
+      filteredProductsForCategory.assignAll(fetched);
     } catch (e) {
       print("Error fetching products: $e");
     } finally {
@@ -119,7 +121,8 @@ class ProductController extends GetxController {
 
     // 🔹 Category filter
     if (selectedCategory.value != null && selectedCategory.value!.isNotEmpty) {
-      temp = temp.where((p) => p.categoryName == selectedCategory.value).toList();
+      print("Filtering by category: ${selectedCategory.value}");
+      temp = temp.where((p) => p.categoryName.toLowerCase() == selectedCategory.value!.toLowerCase()).toList();
     }
 
     // 🔹 Condition filter
