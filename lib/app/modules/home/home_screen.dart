@@ -9,6 +9,7 @@ import 'package:ihamim_multivendor/app/data/repositories/categroy_repository.dar
 import 'package:ihamim_multivendor/app/data/repositories/product_repository.dart';
 import 'package:ihamim_multivendor/app/modules/addProduct_screen.dart';
 import 'package:ihamim_multivendor/app/modules/categoryProduct_screen.dart';
+import 'package:ihamim_multivendor/app/modules/chat_screen.dart';
 import 'package:ihamim_multivendor/app/modules/home/widgets/categoryList_widget.dart';
 import 'package:ihamim_multivendor/app/modules/home/widgets/filter_bottom_sheet.dart';
 import 'package:ihamim_multivendor/app/modules/home/widgets/productCard_widget.dart';
@@ -209,21 +210,28 @@ Get.to(() => ProductDetailScreen(product: product));
                 ),
               ),
 
-              // SliverToBoxAdapter(
-              //   child: Padding(
-              //     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-              //     child: ElevatedButton(
-              //       onPressed: () {
-              //         // Navigator.push(
-              //         //   context,
-              //         //   MaterialPageRoute(builder: (_) => WishlistScreen()),
-              //         // );
-              //         Get.to(() => AddproductScreen());
-              //       },
-              //       child: const Text('Add Products'),
-              //     ),
-              //   ),
-              // ),
+//               SliverToBoxAdapter(
+//                 child: Padding(
+//                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+//                   child: ElevatedButton(
+//                     onPressed: () {
+//                       // Navigator.push(
+//                       //   context,
+//                       //   MaterialPageRoute(builder: (_) => WishlistScreen()),
+//                       // );
+//                       // Get.to(() => AddproductScreen());
+
+//                       Get.to(() => ChatScreen(
+//   currentUserId: 31,
+//   otherUserId: 29,
+//   otherUserName: "John Doe",
+// ));
+
+//                     },
+//                     child: const Text('Add Products'),
+//                   ),
+//                 ),
+//               ),
             ],
           ),
         );

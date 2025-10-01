@@ -43,7 +43,7 @@ class LoginScreen extends StatelessWidget {
                       //   return;
                       // }
 
-                      authController.login("0966202667", "123456");
+                      authController.login("123456", "123456");
                     },
                     child: const Text("Login"),
                   )),

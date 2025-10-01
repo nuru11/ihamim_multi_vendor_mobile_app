@@ -10,6 +10,7 @@ class ProductModel {
   final int stock;
   final int categoryId;
   final String categoryName;
+  final String userName;
   final int userId;
   final String phone;
   final String? comment; // Nullable
@@ -33,6 +34,7 @@ class ProductModel {
     required this.categoryId,
     required this.categoryName,
     required this.userId,
+    required this.userName,
     required this.phone,
     this.comment,
     this.location,
@@ -58,6 +60,7 @@ class ProductModel {
       categoryId: json['categoryId'] ?? 0,
       categoryName: json['categoryName'] ?? '',
       userId: json['userId'] ?? 0,
+      userName: json['userName'] ?? '',
       phone: json['phone'] ?? '',
       comment: json['comment'], // Nullable
       location: json['location'], // Nullable
@@ -84,6 +87,7 @@ class ProductModel {
       'categoryId': categoryId,
       'categoryName': categoryName,
       'userId': userId,
+      'userName': userName,
       'phone': phone,
       'comment': comment,
       'location': location,

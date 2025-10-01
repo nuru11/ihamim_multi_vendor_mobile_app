@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:ihamim_multivendor/app/data/providers/chats/all_chats.dart';
 import 'package:ihamim_multivendor/app/modules/addProduct_screen.dart';
 import 'package:ihamim_multivendor/app/modules/auth/login_screen.dart';
 import 'package:ihamim_multivendor/app/modules/auth/profile_screen.dart';
@@ -39,7 +40,7 @@ class _MainScreenState extends State<MainScreen> {
         navKey: searchNavKey,
       ),
       NavModel(
-        page: HomeScreen(),
+        page: ChatListScreen(),
         navKey: notificationNavKey,
       ),
       NavModel(

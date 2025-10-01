@@ -56,6 +56,12 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
+                    user["id"].toString() ?? "User Id",
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
                     user["phone"] ?? user["email"] ?? "",
                     style: const TextStyle(fontSize: 16, color: Colors.grey),
                   ),

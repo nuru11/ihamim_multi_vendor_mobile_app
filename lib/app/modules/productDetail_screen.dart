@@ -5,10 +5,12 @@ import 'package:get_storage/get_storage.dart';
 import 'package:ihamim_multivendor/app/controllers/wishlist_controller.dart';
 import 'package:ihamim_multivendor/app/data/models/product_model.dart';
 import 'package:ihamim_multivendor/app/modules/auth/login_screen.dart';
+import 'package:ihamim_multivendor/app/modules/chat_screen.dart';
 import 'package:ihamim_multivendor/app/utils/constants/colors.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final ProductModel product;
+  
 
   const ProductDetailScreen({super.key, required this.product});
 
@@ -20,6 +22,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   int currentIndex = 0;
   final ScrollController _thumbnailController = ScrollController();
   final PageController _pageController = PageController();
+
+  final box = GetStorage();
+
+  late int currentUserId;
+
+  final RxMap<int, int> unreadCounts = <int, int>{}.obs;
 
   // Dummy images
   final List<String> categoryImages = List.generate(
@@ -38,11 +46,28 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     );
   }
 
+
+  @override
+  void initState() {
+    super.initState();
+
+    final user = box.read("user") ?? {};
+    currentUserId = user["id"];
+
+  
+  }
+
   @override
   void dispose() {
     _thumbnailController.dispose();
     _pageController.dispose();
     super.dispose();
+  }
+
+
+  void _openChat(int otherUserId) {
+    // Reset unread count
+    unreadCounts[otherUserId] = 0;
   }
 
   @override
@@ -184,7 +209,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   Text("Model: ${widget.product.carModel}", style: const TextStyle(fontSize: 14)),
                   Text("Condition: ${widget.product.carCondition}",
                       style: const TextStyle(fontSize: 14)),
+
+                      Text("Seller: ${widget.product.userName}", style: const TextStyle(fontSize: 14)),
+                      const SizedBox(height: 8),
+                      Text("id: ${widget.product.userId}", style: const TextStyle(fontSize: 14)),
+                      const SizedBox(height: 20),
+                      Text("Location: $currentUserId", style: const TextStyle(fontSize: 14)),
                   const SizedBox(height: 20),
+                  Text("current $currentUserId")
                 ],
               ),
             ),
@@ -232,6 +264,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       } else {
         // Logged in → go to Add Product
         print("Chat with seller user logged in");
+
+         _openChat(widget.product.userId);
+                Get.to(() => ChatScreen(
+                      currentUserId: currentUserId,
+                      otherUserId: widget.product.userId, // Dummy other user ID
+                      otherUserName: widget.product.userName,
+                    ));
       }
                 },
                 style: OutlinedButton.styleFrom(
