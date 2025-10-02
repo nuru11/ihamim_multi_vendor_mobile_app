@@ -38,8 +38,11 @@ void initState() {
       widget.currentUserId,
       widget.otherUserId,
     );
+
+    await _messageController.markAsRead(widget.currentUserId, widget.otherUserId);
     _scrollToBottom();
   });
+  
 
   _messageController.messages.listen((_) => _scrollToBottom());
 }
@@ -148,36 +151,84 @@ void dispose() {
     );
   }
 
+  // Widget _buildMessageBubble(MessageModel msg, bool isMe) {
+  //   return Align(
+  //     alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
+  //     child: Container(
+  //       margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+  //       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
+  //       decoration: BoxDecoration(
+  //         color: isMe ? Colors.blueAccent : Colors.grey[300],
+  //         borderRadius: BorderRadius.circular(12),
+  //       ),
+  //       child: Column(
+  //         crossAxisAlignment: CrossAxisAlignment.start,
+  //         children: [
+  //           Text(
+  //             msg.message,
+  //             style: TextStyle(color: isMe ? Colors.white : Colors.black87),
+  //           ),
+  //           const SizedBox(height: 4),
+  //           Text(
+  //             _formatTime(msg.createdAt),
+  //             style: TextStyle(
+  //               fontSize: 10,
+  //               color: isMe ? Colors.white70 : Colors.black54,
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
+
+
   Widget _buildMessageBubble(MessageModel msg, bool isMe) {
-    return Align(
-      alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
-        decoration: BoxDecoration(
-          color: isMe ? Colors.blueAccent : Colors.grey[300],
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              msg.message,
-              style: TextStyle(color: isMe ? Colors.white : Colors.black87),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              _formatTime(msg.createdAt),
-              style: TextStyle(
-                fontSize: 10,
-                color: isMe ? Colors.white70 : Colors.black54,
-              ),
-            ),
-          ],
-        ),
+  return Align(
+    alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
+    child: Container(
+      margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
+      decoration: BoxDecoration(
+        color: isMe ? Colors.blueAccent : Colors.grey[300],
+        borderRadius: BorderRadius.circular(12),
       ),
-    );
-  }
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            msg.message,
+            style: TextStyle(color: isMe ? Colors.white : Colors.black87),
+          ),
+          const SizedBox(height: 4),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                _formatTime(msg.createdAt),
+                style: TextStyle(
+                  fontSize: 10,
+                  color: isMe ? Colors.white70 : Colors.black54,
+                ),
+              ),
+              if (isMe) ...[
+                const SizedBox(width: 6),
+                Icon(
+                  msg.isRead ? Icons.done_all : Icons.check,
+                  size: 16,
+                  color: msg.isRead
+                      ? Colors.lightBlueAccent   // double tick color
+                      : (isMe ? Colors.white70 : Colors.black54),
+                ),
+              ]
+            ],
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
 
   Widget _buildInputArea() {
   return SafeArea(
