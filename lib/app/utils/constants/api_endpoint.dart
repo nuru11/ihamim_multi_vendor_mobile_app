@@ -1,6 +1,6 @@
 // lib/core/constants/api_endpoints.dart
 class ApiEndpoints {
-  static const String baseUrl = 'http://192.168.166.3:4000/api';
+  static const String baseUrl = 'http://192.168.1.14:4000/api';
 
   /* Authentication */
   static const String login = '$baseUrl/auth/login';
